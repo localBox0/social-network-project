@@ -1,0 +1,61 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+}
+
+.dialogsItems {
+    display: grid;
+    justify-items: center;
+    padding: 10px;
+}
+
+.dialogsItems img {
+    width: 45px;
+    height: 45px;
+    border-radius: 30px;
+    padding-right: 4px;
+}
+
+.dialogsItemsBox {
+    display: grid;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.dialogsItemsLink {
+    text-decoration: none;
+    color: brown;
+}
+
+.dialogsItemsActiveLink {
+    text-decoration: none;
+    color: orangered;
+}
+
+.messages {
+    display: grid;
+    justify-items: center;
+    padding: 10px;
+}
+
+.messages .message {
+    color: grey;
+}
+
+.messageWindow {
+    display: grid;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    padding: 15px;
+    justify-items: center;
+}
+
+.messageWindow .sendMessageButton {
+    width: 100px;
+    height: 40px;
+}
+.messageWindow textarea {
+    width: 400px;
+    height: 60px;
+    margin-bottom: 10px;
+}

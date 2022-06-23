@@ -1,0 +1,29 @@
+.nav {
+    grid-area: n;
+    background-color: burlywood;
+    padding: 20px;
+}
+
+.item a{
+    color: white;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+.item a.activeLink {
+    color: darkgoldenrod;
+}
+
+.sidebar {
+    margin-top: 175px;
+}
+
+.sidebar__Name {
+    color: white;
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.sidebar__Content {
+    width: 180px;
+}
