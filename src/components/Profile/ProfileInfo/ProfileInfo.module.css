@@ -5,3 +5,8 @@
 .globalImage img{
     width: 100%;
 }
+
+.mainPhoto {
+    max-width: 200px;
+}
+
