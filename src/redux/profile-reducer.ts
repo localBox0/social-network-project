@@ -1,5 +1,6 @@
 import {profileAPI, usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {Dispatch} from "redux";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -49,7 +50,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
     switch(action.type) {
         case ADD_POST: {
@@ -84,6 +85,9 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
     }
 }
 
+type ActionsType = AddPostActionCreatorActionType | SetUserProfileActionType | SetStatusActionType |
+    DeletePostActionType | SavePhotoSuccessActionType
+
 type AddPostActionCreatorActionType = {
     type: typeof ADD_POST
     newPostText: string
@@ -114,12 +118,12 @@ type SavePhotoSuccessActionType = {
 }
 export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType => ({type: SAVE_PHOTO_SUCCESS, photos})
 
-export const getUserProfile = (userId: number) => async (dispatch: any) => {
+export const getUserProfile = (userId: number) => async (dispatch: Dispatch<ActionsType>) => {
     let response = await usersAPI.getProfile(userId);
         dispatch(setUserProfile(response.data));
 }
 
-export const getStatus = (userId: number) => async (dispatch: any) => {
+export const getStatus = (userId: number) => async (dispatch: Dispatch<ActionsType>) => {
     let response = await profileAPI.getStatus(userId);
             dispatch(setStatus(response.data));
 }
@@ -131,7 +135,7 @@ export const updateStatus = (status: string) => async (dispatch: any) => {
             }
 }
 
-export const savePhoto = (file: any) => async (dispatch: any) => {
+export const savePhoto = (file: any) => async (dispatch: Dispatch<ActionsType>) => {
     let response = await profileAPI.savePhoto(file);
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data.photos));

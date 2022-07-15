@@ -1,5 +1,6 @@
 import {usersAPI} from "../api/api";
 import {updateObjectInArray} from "../utils/object-helpers";
+import {Dispatch} from "redux";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -32,7 +33,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
-const usersReducer = (state = initialState, action: any): InitialStateType => {
+const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -68,6 +69,12 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
             return state;
     }
 }
+
+type ActionsTypes = FollowSuccessActionType | UnfollowSuccessActionType | SetUsersActionType |
+    SetCurrentPageActionType | SetTotalUsersCountActionType | ToggleIsFetchingActionType |
+    ToggleFollowingProgressActionType
+
+
 type FollowSuccessActionType = {
     type: typeof FOLLOW
     userId: number
@@ -116,7 +123,7 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number): To
 })
 
 export const getUsers = (currentPage: number, pageSize: number) => {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         dispatch(toggleIsFetching(true));
         let data = await usersAPI.getUsers(currentPage, pageSize);
         dispatch(toggleIsFetching(false));
@@ -127,7 +134,7 @@ export const getUsers = (currentPage: number, pageSize: number) => {
 }
 
 export const follow = (userId: number) => {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         dispatch(toggleFollowingProgress(true, userId));
         let response = await usersAPI.follow(userId);
         if (response.data.resultCode === 0) {
@@ -138,7 +145,7 @@ export const follow = (userId: number) => {
 }
 
 export const unfollow = (userId: number) => {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch<ActionsTypes>) => {
         dispatch(toggleFollowingProgress(true, userId));
         let response = await usersAPI.unfollow(userId);
         if (response.data.resultCode === 0) {

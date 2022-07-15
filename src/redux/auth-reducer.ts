@@ -1,5 +1,6 @@
-import { stopSubmit } from "redux-form";
-import {authAPI, securityAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
+import {authAPI, ResultCodesEnum, securityAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 
 const SET_USER_DATA = 'myapp/auth/SET_USER_DATA';
@@ -15,7 +16,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-const authReducer = (state = initialState, action: any): InitialStateType => {
+const authReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA:
             return {
@@ -32,6 +33,8 @@ const authReducer = (state = initialState, action: any): InitialStateType => {
             return state;
     }
 }
+
+type ActionsTypes = SetAuthUserDataActionType | GetCaptchaUrlSuccessActionType
 
 type SetAuthUserDataActionPayloadType = {
     userId: number | null
@@ -58,10 +61,10 @@ type GetCaptchaUrlSuccessActionType = {
 export const getCaptchaUrlSuccess = (captchaUrl: string): GetCaptchaUrlSuccessActionType =>
     ({type: GET_CAPTCHA_URL_SUCCESS, payload: {captchaUrl}});
 
-export const getAuthUserData = () => async (dispatch: any) => {
-    let response = await authAPI.me()
-    if (response.data.resultCode === 0) {
-        let {id, login, email} = response.data.data;
+export const getAuthUserData = () => async (dispatch: Dispatch<ActionsTypes>) => {
+    let meData = await authAPI.me()
+    if (meData.resultCode === ResultCodesEnum.Success) {
+        let {id, login, email} = meData.data;
         // @ts-ignore
         dispatch(setAuthUserData(id, email, login, true));
     }
@@ -71,30 +74,30 @@ export const getAuthUserData = () => async (dispatch: any) => {
 
 export const login = (email: string, password: string, rememberMe: boolean, captcha: string) =>
     async (dispatch: any) => {
-    let response = await authAPI.login(email, password, rememberMe, captcha);
-    if (response.data.resultCode === 0) {
+    let loginData = await authAPI.login(email, password, rememberMe, captcha);
+    if (loginData.resultCode === ResultCodesEnum.Success) {
         dispatch(getAuthUserData())
     } else {
-        if (response.data.resultCode === 10) {
+        if (loginData.resultCode === ResultCodesEnum.CaptchaIsRequired) {
             dispatch(getCaptchaUrl());
         }
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
+        let message = loginData.messages.length > 0 ? loginData.messages[0] : "Some error";
         dispatch(stopSubmit("login", {_error: message}));
 
     }
 }
 
-export const logout = () => async (dispatch: any) => {
-    let response = await authAPI.logout()
-    if (response.data.resultCode === 0) {
+export const logout = () => async (dispatch: Dispatch<ActionsTypes>) => {
+    let logoutData = await authAPI.logout()
+    if (logoutData.resultCode === ResultCodesEnum.Success) {
         dispatch(setAuthUserData(null, null, null, false, null));
     }
 
 }
 
-export const getCaptchaUrl = () => async (dispatch: any) => {
-    const response = await securityAPI.getCaptchaUrl();
-    const captchaUrl = response.data.url;
+export const getCaptchaUrl = () => async (dispatch: Dispatch<ActionsTypes>) => {
+    const getCaptchaUrlData = await securityAPI.getCaptchaUrl();
+    const captchaUrl = getCaptchaUrlData.url;
     dispatch(getCaptchaUrlSuccess(captchaUrl));
 }
 

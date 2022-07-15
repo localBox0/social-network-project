@@ -16,7 +16,7 @@ import {
     getPageSize,
     getTotalUsersCount, getUsersArr
 } from "../../redux/users-selectors"
-import {UserType} from "../../types/types"
+import {PhotoType, UserType} from "../../types/types"
 import {AppStateType} from "../../redux/redux-store";
 
 type MapStatePropsType = {
@@ -25,6 +25,7 @@ type MapStatePropsType = {
     isFetching: boolean
     totalUsersCount: number
     users: Array<UserType>
+    photos: PhotoType
     followingInProgress: Array<number>
 }
 type MapDispatchPropsType = {
@@ -53,7 +54,7 @@ class UsersContainer extends React.Component<PropsType> {
                    currentPage={this.props.currentPage}
                    onPageChanged={this.onPageChanged}
                    users={this.props.users} follow={this.props.follow} unfollow={this.props.unfollow}
-                   followingInProgress={this.props.followingInProgress}
+                   followingInProgress={this.props.followingInProgress} photos={this.props.photos}
             />
         </>
     }
