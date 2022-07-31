@@ -3,22 +3,28 @@ import s from './Dialogs.module.css';
 import Message from "./Message/Message";
 import DialogItem from "./DialogItem/DialogsItem";
 import {Redirect} from "react-router-dom";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../utils/validators/validators";
+import {InitialStateType} from "../../redux/dialogs-reducer";
 
+type PropsType = {
+    dialogsPage: InitialStateType
+    sendMessage: (messageText: string) => void
+}
+type NewMessageFormValuesType = {
+    newMessageBody: string
+}
 
-const Dialogs = (props) => {
+const Dialogs: React.FC<PropsType> = (props) => {
     let state = props.dialogsPage;
     let messagesElement = state.messages
         .map( m => <Message message={m.message} key={m.id}/>)
     let dialogsElements = state.dialogs
         .map( d => <DialogItem name={d.name} key={d.id} id={d.id}/>)
-    let addNewMessage = (values) => {
+    let addNewMessage = (values: NewMessageFormValuesType) => {
         props.sendMessage(values.newMessageBody);
     }
-
-    if (!props.isAuth) return <Redirect to='/login'/>
 
     return (
         <div className={s.dialogs}>
@@ -34,8 +40,8 @@ const Dialogs = (props) => {
 }
 
 const maxLengthCreator350 = maxLengthCreator(350)
-
-const AddMessageForm = (props) => {
+type FormPropsType = {}
+const AddMessageForm: React.FC<InjectedFormProps<NewMessageFormValuesType, FormPropsType> & FormPropsType> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div><Field placeholder="Type your message" name="newMessageBody"
@@ -45,7 +51,7 @@ const AddMessageForm = (props) => {
     )
 }
 
-const AddMessageFormRedux = reduxForm({
+const AddMessageFormRedux = reduxForm<NewMessageFormValuesType, FormPropsType>({
     form: "dialogAddMessageForm"
 })(AddMessageForm);
 

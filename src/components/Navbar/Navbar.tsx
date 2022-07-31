@@ -10,7 +10,7 @@ const SelectedLink = () => {
     );
 }
 
-const Navbar = (props) => {
+const Navbar: React.FC = () => {
 
     return <nav className={s.nav}>
         <div className={s.item}>
