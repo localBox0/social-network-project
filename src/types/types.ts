@@ -1,6 +1,6 @@
 export type PhotoType = {
-    small: string
-    large: string
+    small: string | null
+    large: string | null
 }
 export type UserType = {
     id: number
