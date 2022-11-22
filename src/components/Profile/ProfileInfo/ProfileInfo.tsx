@@ -36,9 +36,6 @@ const ProfileInfo: React.FC<PropsType> = ({profile, updateStatus, status, isOwne
 
     return (
         <div>
-            <div className={s.globalImage}>
-                <img src='https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350'/>
-            </div>
             <div className={s.descriptionBlock}>
                 <img src={profile.photos.large || userPhoto} className={s.mainPhoto}/>
                 <div> { isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>} </div>
