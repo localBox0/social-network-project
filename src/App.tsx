@@ -58,12 +58,7 @@ const itemsSideMenu: MenuItem[] = [
             <Link to='/dialogs'>
                 Messages
             </Link>,
-            'Messages'),
-        getItem(
-        <Link to='/Chat'>
-            Chat
-        </Link>,
-        'Chat')
+            'Messages')
     ]),
 
     getItem('Developers', 'Developers', <LaptopOutlined />, [
@@ -73,10 +68,10 @@ const itemsSideMenu: MenuItem[] = [
             </Link>,
             'DevelopersList'),
         getItem(
-            <Link to='/users'>
-                Developers List in future My subscriptions
+            <Link to='/Chat'>
+                Chat
             </Link>,
-            'DevelopersListSubs')
+            'Chat')
     ]),
 
     getItem('Music', 'Music', <CustomerServiceOutlined />, [
