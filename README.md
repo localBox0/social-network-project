@@ -25,11 +25,11 @@ I will give you my own login and password.
 
 This project was created to study a wide stack of technologies and understand the principles of their operation.
 
-* The project implemented integration with the project's API.
+* The project implemented integration with the server API.
 * Login page with custom validation. 
 * User main page has been created with the ability to change your avatar and information about yourself. 
-* User search page was created with the ability to subscribe/unsubscribe and the ability to filter them by these parameters.
-* Chat page was created with the ability to send messages(used WebSocket).
+* User search page was created with the ability to subscribe/unsubscribe and the ability to filter users by these parameters.
+* Chat page was created with the ability to send messages to other real users(used WebSocket).
 
 ![SocialNetworkChat](https://user-images.githubusercontent.com/87381764/216784057-4657866a-e747-4b22-a046-7c2e21cece1a.png)
 ![SocialNetworkUserList](https://user-images.githubusercontent.com/87381764/216784060-fe8b945c-27ee-4318-8bad-59480d16d268.png)
